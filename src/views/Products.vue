@@ -15,11 +15,18 @@
     </div>
     
     
-    <div class="flex justify-between items-center mb-4">
-      <SearchInput 
+    <div class="flex justify-between items-center mb-4 gap-x-2 md:gap-x-4">
+      <SearchInput
+        :key="searchInputKey"
         v-model="searchQuery"
         @update:modelValue="handleSearch"
       />
+      <button 
+        @click="resetFilters"
+        class=" text-xs md:text-sm px-2 py-1 md:px-3 md:py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors"
+      >
+      Reset Filters
+      </button>
       <button 
         @click="openCreateModal"
         class=" text-xs md:text-sm px-2 py-1 md:px-3 md:py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors"
@@ -100,6 +107,7 @@ const modalState = ref({
 });
 
 const selectedItem = ref<Partial<Product>>(createEmptyProduct());
+const searchInputKey = ref(0);
 
 // Computed
 const pageSize = computed({
@@ -181,6 +189,10 @@ const goToPage = (page: number) => {
 const onPerPageChange = (perPage: number) => {
   filters.value.per_page = perPage;
   productStore.changePage(1);
+};
+const resetFilters = () => {
+  productStore.resetFilters();
+  searchInputKey.value++; 
 };
 
 const logOut = async () => {

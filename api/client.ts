@@ -46,27 +46,23 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     const authStore = useAuthStore();
-    const router = useRouter();
 
-    if (isRefreshTokenFailed) {
-      return Promise.reject(error);
-    }
+    if (error.response?.status === 403 && 
+        error.response?.data?.message === 'Token has expired' && 
+        !originalRequest._retry) {
+          
+        }
 
-    const isTokenExpired =
-      error.response?.status === 403 &&
-      error.response?.data?.message === 'Token has expired';
-
-    const isUnauthorized = error.response?.status === 401;
-
-    if ((isUnauthorized || isTokenExpired) && !originalRequest._retry) {
+    if (error.response?.status === 403 && 
+        error.response?.data?.message === 'Token has expired' && 
+        !originalRequest._retry) {
+      
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
-        }).then(token => {
+        }).then((token) => {
           originalRequest.headers.Authorization = `Bearer ${token}`;
           return apiClient(originalRequest);
-        }).catch(err => {
-          return Promise.reject(err);
         });
       }
 
@@ -76,21 +72,16 @@ apiClient.interceptors.response.use(
       try {
         const newAccessToken = await authStore.refreshAccessToken();
         
-        if (newAccessToken) {
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-          
-          processQueue(null, newAccessToken);
-          
-          return apiClient(originalRequest);
-        } else {
-          throw new Error('No access token received');
-        }
+        if (!newAccessToken) throw new Error('Refresh failed');
+        
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        
+        processQueue(null, newAccessToken);
+        return apiClient(originalRequest);
+        
       } catch (refreshError) {
-        console.error('Token refresh failed', refreshError);
         processQueue(refreshError, undefined);
-        isRefreshTokenFailed = true;
         authStore.clearAuth();
-        await router.push('/login');
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
