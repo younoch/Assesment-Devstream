@@ -57,7 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
       console.log(res.data.data.access_token);
       
       setTokens(res.data.data.access_token, '');
-      return res.data.access;
+      return res.data.data.access_token;
     } catch (err) {
       clearAuth();
       await router.push('/login');
