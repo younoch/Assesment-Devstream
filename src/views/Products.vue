@@ -129,7 +129,9 @@ function createEmptyProduct(): Partial<Product> {
 
 // Modal handlers
 const openDeleteModal = (product: Product) => {
-  selectedItem.value = product;
+  selectedItem.value = { ...product };
+  console.log(selectedItem.value);
+  
   modalState.value.delete = true;
 };
 
@@ -154,9 +156,11 @@ const closeFormModal = () => {
 };
 
 // Action handlers
-const handleDeleteConfirm = async (product: Product) => {
+const handleDeleteConfirm = async (productSlug: string) => {
+  console.log(productSlug);
+  
   try {
-    await productStore.deleteProduct(product.slug);
+    await productStore.deleteProduct(productSlug);
     await productStore.loadProducts();
     closeDeleteModal();
   } catch (err) {

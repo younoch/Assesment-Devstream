@@ -86,7 +86,7 @@ const closeModal = () => {
 };
 
 const confirmDelete = () => {
-  emit('confirm', props.product.product_name);
+  emit('confirm', props.product.slug);
   closeModal();
 };
 </script>
