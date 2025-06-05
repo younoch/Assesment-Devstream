@@ -1,12 +1,12 @@
 <template>
     <div v-if="pagination"
-      class="grid px-3 py-2 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
-      <span class="flex items-center col-span-3">
+      class="grid grid-cols-6 md:grid-cols-12 px-3 py-2 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+      <span class="flex items-center col-span-3 md:">
         Showing {{ pagination.per_page * (pagination.current_page - 1) + 1 }}-{{
         Math.min(pagination.per_page * pagination.current_page, pagination.total_items)
         }} of {{ pagination.total_items }}
       </span>
-      <span class="flex items-center col-span-2">
+      <span class="flex items-center col-span-3">
         <span class="mr-2">Items per page:</span>
         <select 
           v-model="pagination.per_page" 
@@ -18,7 +18,7 @@
           </option>
         </select>
       </span>
-      <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+      <span class="flex col-span-6 mt-2 sm:mt-auto justify-center sm:justify-end">
         <nav aria-label="Table navigation">
           <ul class="inline-flex items-center">
             <li>

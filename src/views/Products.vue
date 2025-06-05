@@ -4,12 +4,14 @@
       <h2 class=" text-2xl font-semibold text-gray-700 dark:text-gray-200">
       Product List
     </h2>
+    <div>
       <button 
         @click="logOut"
-        class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors"
+        class="px-2 py-1 md:px-3 md:py-2 bg-purple-500 text-xs md:text-sm text-white rounded hover:bg-purple-600 transition-colors"
       >
         Log Out
       </button>
+    </div>
     </div>
     
     
@@ -20,7 +22,7 @@
       />
       <button 
         @click="openCreateModal"
-        class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors"
+        class=" text-xs md:text-sm px-2 py-1 md:px-3 md:py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors"
       >
         Add Product
       </button>
