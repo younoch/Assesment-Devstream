@@ -163,7 +163,7 @@ const handleFormSubmit = async (productData: Product) => {
     } else {
       await productStore.createProduct(productData);
     }
-    await productStore.loadProducts();
+    // await productStore.loadProducts();
     closeFormModal();
   } catch (err) {
     console.error('Operation failed:', err);
@@ -172,7 +172,6 @@ const handleFormSubmit = async (productData: Product) => {
 
 const handleSearch = (value: string) => {
   searchQuery.value = value;
-  productStore.changePage(1);
 };
 
 const goToPage = (page: number) => {
@@ -189,7 +188,6 @@ const logOut = async () => {
   await router.push('/login');
 }
 
-// For template access
 const isDeleteModalOpen = computed(() => modalState.value.delete);
 const isFormModalOpen = computed(() => modalState.value.form);
 const isEditMode = computed(() => modalState.value.isEditMode);

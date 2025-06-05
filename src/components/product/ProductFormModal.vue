@@ -13,10 +13,10 @@
             </h3>
             <button
               @click="closeModal"
-              class="text-gray-400 hover:text-gray-500"
+              class="text-red-400 hover:text-red-600"
             >
               <span class="sr-only">Close</span>
-              <span class="h-6 w-6"> X</span>
+              <span class="text-2xl">X</span>
             </button>
           </div>
 

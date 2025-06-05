@@ -1,5 +1,6 @@
 // src/api/client.ts
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 
 const BASE_URL = 'https://api.sandbox.payinpos.com/api/v1';
@@ -45,6 +46,7 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     const authStore = useAuthStore();
+    const router = useRouter();
 
     if (isRefreshTokenFailed) {
       return Promise.reject(error);
@@ -75,13 +77,10 @@ apiClient.interceptors.response.use(
         const newAccessToken = await authStore.refreshAccessToken();
         
         if (newAccessToken) {
-          // Update the Authorization header
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           
-          // Process queued requests
           processQueue(null, newAccessToken);
           
-          // Retry the original request
           return apiClient(originalRequest);
         } else {
           throw new Error('No access token received');
@@ -91,7 +90,7 @@ apiClient.interceptors.response.use(
         processQueue(refreshError, undefined);
         isRefreshTokenFailed = true;
         authStore.clearAuth();
-        window.location.href = '/login';
+        await router.push('/login');
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
