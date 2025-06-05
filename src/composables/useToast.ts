@@ -1,6 +1,6 @@
 // src/composables/useToast.ts
+import { ToastAPI } from '@/types/toast';
 import { inject } from 'vue';
-import type { ToastAPI } from '@/plugins/toast';
 
 export function useToast() {
   const toast = inject<ToastAPI>('toast');

@@ -4,6 +4,7 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import apiClient from '../../api/client';
 import type { LoginCredentials } from './types/auth';
+import { useToast } from '@/composables/useToast';
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
@@ -39,6 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
       const res = await apiClient.post('/token/', credentials, { withCredentials: true });
       
       setTokens(res.data.data.access_token, res.data.data.refresh_token);
+      useToast().success('Login successful!');
     } catch (err: any) {
       error.value = err.response?.data?.detail || 'Login failed';
       throw err;
