@@ -24,7 +24,7 @@ module.exports = defineConfig({
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '^/api': '/api/v1' // rewrites /api/product/ to /api/v1/product/
+          '^/api': '/api/v1' 
         }
       }
     },

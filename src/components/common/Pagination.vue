@@ -120,10 +120,8 @@ const visiblePages = computed(() => {
   const total = props.pagination.total_pages;
   const range = [];
   
-  // Always show first page
   range.push(1);
-  
-  // Show pages around current page
+
   const start = Math.max(2, current - 2);
   const end = Math.min(total - 1, current + 2);
   
@@ -134,8 +132,7 @@ const visiblePages = computed(() => {
   }
   
   if (end < total - 1) range.push('...');
-  
-  // Always show last page if different from first
+
   if (total > 1 && !range.includes(total)) range.push(total);
   
   return range;

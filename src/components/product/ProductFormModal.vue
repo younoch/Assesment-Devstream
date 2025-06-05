@@ -178,13 +178,12 @@ import FormInput from '@/components/common/FormInput.vue';
 import FormCheckbox from '@/components/common/FormCheckbox.vue';
 import { generateRandomSKU } from '@/utils/skuGenerator';
 
-// Enhanced Product types
 type CreateProduct = Omit<Product, 'id' | 'created_at' | 'updated_at' | 'slug'> & {
-  sku?: string; // Optional for creation (can be generated)
+  sku?: string; 
 };
 
 type UpdateProduct = Partial<Omit<Product, 'created_at' | 'sku'>> & {
-  slug: string; // Required for update
+  slug: string; 
   updated_at?: string;
 };
 
@@ -208,7 +207,6 @@ const emit = defineEmits<{
   (e: 'submit', product: CreateProduct | UpdateProduct): void;
 }>();
 
-// Initialize form data with proper types
 const initialFormData: Product = {
   id: undefined,
   product_name: '',
@@ -230,10 +228,10 @@ const initialFormData: Product = {
 
 const formData = ref<Product>({ ...initialFormData });
 
-// Watch for modal open/close and edit mode changes
+
 watch(() => props.isOpen, (isOpen) => {
   if (isOpen && props.isEditMode) {
-    // Clone the product data to avoid reference issues
+
     formData.value = { 
       ...initialFormData, 
       ...JSON.parse(JSON.stringify(props.product)) 
@@ -263,10 +261,9 @@ const handleSubmit = () => {
     };
 
     if (!props.isEditMode) {
-      // For create - omit server-generated fields
+
       const { id, created_at, updated_at, slug, ...createData } = processedData;
       
-      // Generate SKU if not provided
       const dataToSubmit: CreateProduct = {
         ...createData,
         sku: createData.sku || generateRandomSKU(),
@@ -274,7 +271,6 @@ const handleSubmit = () => {
       
       emit('submit', dataToSubmit);
     } else {
-      // For update - ensure slug is present and omit immutable fields
       if (!processedData.slug) {
         throw new Error('Product slug is required for update');
       }
@@ -283,14 +279,13 @@ const handleSubmit = () => {
       const dataToSubmit: UpdateProduct = {
         ...updateData,
         slug: processedData.slug,
-        updated_at: new Date().toISOString(), // Auto-set update timestamp
+        updated_at: new Date().toISOString(),
       };
       
       emit('submit', dataToSubmit);
     }
   } catch (error) {
     console.error('Form submission error:', error);
-    // You might want to show an error to the user here
     throw error;
   }
 };

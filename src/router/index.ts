@@ -2,7 +2,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 
-// Lazy-load the components
 const Login = () => import('@/views/Login.vue');
 const Products = () => import('@/views/Products.vue');
 

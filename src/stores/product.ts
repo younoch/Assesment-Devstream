@@ -43,7 +43,6 @@ export const useProductStore = defineStore('product', () => {
     }
   });
 
-  // Debounce implementation
   let debounceTimeout: number;
   const debouncedLoadProducts = () => {
     clearTimeout(debounceTimeout);
@@ -73,8 +72,6 @@ export const useProductStore = defineStore('product', () => {
         meta: { pagination: Pagination };
       }>('/product/', { params });
       console.log(response.data);
-
-      // correct pagination need to pass
       
       products.value = response.data.data.results;
       pagination.value.current_page = response.data.data.active_page
@@ -138,7 +135,6 @@ export const useProductStore = defineStore('product', () => {
     try {
       const response = await apiClient.patch<{ data: Product }>(`/product/${slug}/`, dataToSend);
       
-      // Update local state
       const index = products.value.findIndex(p => p.slug === slug);
       if (index !== -1) {
         products.value[index] = response.data.data;
@@ -165,7 +161,6 @@ export const useProductStore = defineStore('product', () => {
     try {
       await apiClient.delete(`/product/${slug}/`);
       
-      // Update local state
       products.value = products.value.filter(p => p.slug !== slug);
       
       if (selectedProduct.value?.slug === slug) {
@@ -194,7 +189,6 @@ export const useProductStore = defineStore('product', () => {
     loadProducts();
   };
 
-  // Helper function
   const handleApiError = (error: unknown): string => {
     if (typeof error === 'object' && error !== null) {
       const err = error as { response?: { data?: { detail?: string; errors?: Record<string, string[]> } } };
