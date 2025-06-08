@@ -196,7 +196,7 @@ const onPerPageChange = (perPage: number) => {
 };
 const resetFilters = () => {
   productStore.resetFilters();
-  searchInputKey.value++; 
+  searchInputKey.value += 1;
 };
 
 const logOut = async () => {

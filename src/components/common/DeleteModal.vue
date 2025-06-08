@@ -81,6 +81,7 @@ const emit = defineEmits<{
   (e: 'confirm', slug: string): void;
 }>();
 
+
 const closeModal = () => {
   emit('close');
 };
